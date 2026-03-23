@@ -36,11 +36,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.tooling.preview.Preview
 import com.afanaseva.grade_clicker.data.Datasource
 import com.afanaseva.grade_clicker.ui.theme.GradeClickerTheme
+import android.util.Log
+import androidx.compose.runtime.saveable.rememberSaveable
 
-
+private const val TAG = "MainActivity"
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate Called")
         enableEdgeToEdge()
         setContent {
             GradeClickerTheme {
@@ -50,12 +53,37 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    override fun onStart(){
+        super.onStart()
+        Log.d(TAG, "onResume Called")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart Called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause Called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop Called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestory Called")
+    }
+
 }
 
 @Composable
 fun GradeClickerApp(grades: List<Grade>){
-    var points by remember { mutableStateOf(0) }
-    var clicks by remember { mutableStateOf(0) }
+    var points by rememberSaveable { mutableStateOf(0) }
+    var clicks by rememberSaveable { mutableStateOf(0) }
     var currentGrade = determineGradeToShow(grades, points)
 
     Column (modifier = Modifier
